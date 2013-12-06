@@ -21,6 +21,8 @@ FPSController::~FPSController(void)
 
 void FPSController::Update(float timeDelta)
 {
+	bool onGround = false;
+
 	const Uint8 * keyState = Game::Instance()->GetKeyState();
 
 	float moveSpeed = speed;
@@ -32,11 +34,21 @@ void FPSController::Update(float timeDelta)
 
 	if (keyState[SDL_SCANCODE_W])
 	{
+		if(position.y <= 0.00 && look.y <= 0.0 || position.y >= 1.94 && up.y >= 0.9)
+		{
+			moveSpeed = 0;
+		}
+		else
 		Walk(moveSpeed * timeDelta);
 	}
 
 	if (keyState[SDL_SCANCODE_S])
 	{
+		if(position.y <= 0.00 && look.y <= 0.9)
+		{
+			moveSpeed = 0;
+		}
+		else
 		Walk(-moveSpeed * timeDelta);
 	}
 
@@ -76,3 +88,4 @@ void FPSController::Update(float timeDelta)
 	GameComponent::Update(timeDelta);
 	//Controller::Update(this, this->parent);
 }
+

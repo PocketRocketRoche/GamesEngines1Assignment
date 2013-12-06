@@ -105,8 +105,8 @@ void PhysicsCamera::Update(float timeDelta)
 			what = pickedUp->tag;
 			if ((keyState[SDL_SCANCODE_H]) && (elapsed > timeToPass))
 	{
-		
-		float force = 5000.0f;
+		//force of H
+		float force = 1000.0f;
 		pickedUp->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
 		hasFired = true;
 		elapsed = 0.0f;
