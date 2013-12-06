@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Camera">
       <UniqueIdentifier>{33720a02-d1b2-4718-aedc-a17fe65ecbf7}</UniqueIdentifier>
     </Filter>
@@ -119,9 +115,6 @@
     <ClCompile Include="XBoxController.cpp">
       <Filter>Controllers</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsGame1.cpp">
-      <Filter>Games</Filter>
-    </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -203,6 +196,9 @@
     <ClCompile Include="Lab8.cpp">
       <Filter>Labs</Filter>
     </ClCompile>
+    <ClCompile Include="PortalGame.cpp">
+      <Filter>Games</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -282,9 +278,6 @@
     </ClInclude>
     <ClInclude Include="XBoxController.h">
       <Filter>Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsGame1.h">
-      <Filter>Games</Filter>
     </ClInclude>
     <ClInclude Include="dirent.h">
       <Filter>Source Files</Filter>
@@ -369,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="Lab8.h">
       <Filter>Labs</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalGame.h">
+      <Filter>Games</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

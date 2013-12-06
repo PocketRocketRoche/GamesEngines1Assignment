@@ -1,4 +1,4 @@
-#include "PhysicsGame1.h"
+#include "PortalGame.h"
 #include "PhysicsController.h"
 #include "Sphere.h"
 #include "PhysicsCamera.h"
@@ -16,7 +16,8 @@
 
 using namespace BGE;
 
-PhysicsGame1::PhysicsGame1(void)
+
+PortalGame::PortalGame(void)
 {
 	physicsFactory = NULL;
 	dynamicsWorld = NULL;
@@ -24,17 +25,17 @@ PhysicsGame1::PhysicsGame1(void)
 	dispatcher = NULL;
 	solver = NULL;
 	fullscreen = false;
-
 }
 
-PhysicsGame1::~PhysicsGame1(void)
+
+PortalGame::~PortalGame(void)
 {
 }
 
 
 std::shared_ptr<GameComponent> station;
 
-bool PhysicsGame1::Initialise() 
+bool PortalGame::Initialise() 
 {
 	riftEnabled = false;
 	// Set up the collision configuration and dispatcher
@@ -116,14 +117,14 @@ bool PhysicsGame1::Initialise()
 	return true;
 }
 
-void BGE::PhysicsGame1::Update(float timeDelta)
+void BGE::PortalGame::Update(float timeDelta)
 {
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	station->Yaw(timeDelta * 20.0f);
 	Game::Update(timeDelta);
 }
 
-void BGE::PhysicsGame1::Cleanup()
+void BGE::PortalGame::Cleanup()
 {
 	Game::Cleanup();
 }

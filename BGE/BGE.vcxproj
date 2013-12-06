@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\Dependancies\FMOD\inc;..\Dependancies\LibOVR\Include;..\Dependancies\SDL2-2.0.0\include;..\Dependancies\glew-1.9.0\include;..\Dependancies\glm-0.9.4.3\glm;..\Dependancies\SDL_ttf;..\Dependancies\Kinect\v1.6\inc;..\Dependancies\bullet-2.81-rev2613\src;$(IncludePath)</IncludePath>
     <LibraryPath>..\Dependancies\FMOD\lib;..\Dependancies\LibOVR\Lib\x86;..\Dependancies\SDL2-2.0.0\lib\x86;..\Dependancies\Kinect\v1.6\lib\x86;..\Dependancies\SDL_ttf\VisualC\Win32\Release;..\Dependancies\glew-1.9.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -96,6 +96,7 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="PathFollowingScenario.cpp" />
+    <ClCompile Include="PortalGame.cpp" />
     <ClCompile Include="Route.cpp" />
     <ClCompile Include="Scenario.cpp" />
     <ClCompile Include="SceneGraphGame.cpp" />
@@ -123,7 +124,6 @@
     <ClCompile Include="Params.cpp" />
     <ClCompile Include="PhysicsCamera.cpp" />
     <ClCompile Include="PhysicsFactory.cpp" />
-    <ClCompile Include="PhysicsGame1.cpp" />
     <ClCompile Include="PhysicsController.cpp" />
     <ClCompile Include="RiftController.cpp" />
     <ClCompile Include="ShaderFunctions.cpp" />
@@ -152,6 +152,7 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="PathFollowingScenario.h" />
+    <ClInclude Include="PortalGame.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Scenario.h" />
     <ClInclude Include="SceneGraphGame.h" />
@@ -180,7 +181,6 @@
     <ClInclude Include="Params.h" />
     <ClInclude Include="PhysicsCamera.h" />
     <ClInclude Include="PhysicsFactory.h" />
-    <ClInclude Include="PhysicsGame1.h" />
     <ClInclude Include="PhysicsController.h" />
     <ClInclude Include="RiftController.h" />
     <ClInclude Include="ShaderFunctions.h" />

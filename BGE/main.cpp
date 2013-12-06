@@ -9,7 +9,7 @@
 #include "TexturedCube.h"
 #include "CubeTest.h"
 #include "PhysicsGame1.h"
-
+#include "PortalGame.h"
 #include "ModelTest.h"
 #include "SteeringGame.h"
 #include "SceneGraphGame.h"
@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
 
 	// Uncomment this line to run the Rift/Connect/Physics demo as per 
 	// http://www.youtube.com/watch?v=EEbVHxOkTxw
-	SceneGraphGame game;
+	//SceneGraphGame game;
+	PortalGame game;
 	game.Run();
 
 	return 0;
