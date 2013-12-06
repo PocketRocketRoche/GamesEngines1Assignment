@@ -103,7 +103,7 @@ void PhysicsCamera::Update(float timeDelta)
 			pickedUp->rigidBody->setLinearVelocity(GLToBtVector(v));    
 			pickedUp->rigidBody->activate();		
 			what = pickedUp->tag;
-			if ((keyState[SDL_SCANCODE_H]) && (elapsed > timeToPass))
+			if ((keyState[SDL_SCANCODE_P]) && (elapsed > timeToPass))
 	{
 		//force of H
 		float force = 1000.0f;
