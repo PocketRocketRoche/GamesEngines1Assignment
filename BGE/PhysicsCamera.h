@@ -24,5 +24,6 @@ namespace BGE
 		PhysicsFactory * physicsFactory;
 		float elapsed;
 		float fireRate;
+		bool hasFired;
 	};
 }

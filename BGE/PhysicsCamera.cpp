@@ -12,6 +12,7 @@ PhysicsCamera::PhysicsCamera(PhysicsFactory * physicsFactory):PhysicsController(
 	elapsed = 10000.0f;
 	fireRate = 5.0f;
 	pickedUp = NULL;
+	hasFired = false;
 	tag = "Physics Camera";
 	this->physicsFactory = physicsFactory;
 }
@@ -80,11 +81,11 @@ void PhysicsCamera::Update(float timeDelta)
 				}
 			}
 		}
-		if (pickedUp != NULL)
+		if (pickedUp != NULL && hasFired == false )
 		{
 			float powerfactor = 4.0f; // Higher values causes the targets moving faster to the holding point.
             float maxVel = 3.0f;      // Lower values prevent objects flying through walls.
-			float holdDist = 6.0f;
+			float holdDist = 12.0f;
 
             // Calculate the hold point in front of the camera
 			glm::vec3 holdPos = parent->position + (parent->look * holdDist);
@@ -98,13 +99,30 @@ void PhysicsCamera::Update(float timeDelta)
 				v = glm::normalize(v);
                 v *= maxVel; // just set correction-velocity to the maximum
             }
+			
 			pickedUp->rigidBody->setLinearVelocity(GLToBtVector(v));    
 			pickedUp->rigidBody->activate();		
-			what = pickedUp->tag;	
+			what = pickedUp->tag;
+			if ((keyState[SDL_SCANCODE_H]) && (elapsed > timeToPass))
+	{
+		
+		float force = 5000.0f;
+		pickedUp->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
+		hasFired = true;
+		elapsed = 0.0f;
+		
+	}
+	else
+	{
+		
+		elapsed += timeDelta;
+	}
+			
 		}
 	}
 	else
-	{    
+	{ 
+		hasFired = false;
 		pickedUp = NULL;
 	}
 	stringstream ss;
