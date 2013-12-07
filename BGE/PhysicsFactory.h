@@ -21,11 +21,13 @@ namespace BGE
 		shared_ptr<PhysicsController> CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat);
 		shared_ptr<PhysicsController> CreateVehicle(glm::vec3 pos);
 		shared_ptr<PhysicsController> CreateRagDoll(glm::vec3 pos);
+		//shared_ptr<PhysicsController> CreateIncaPyramid(glm::vec3 startAt, int baseWidth ,float blockWidth, float blockHeight, float blockDepth);
 		shared_ptr<PhysicsController> CreateCameraPhysics();
 		shared_ptr<PhysicsController> CreateGroundPhysics();
 		shared_ptr<PhysicsController> CreateFromModel(string name, glm::vec3 pos, glm::quat quat, glm::vec3 scale = glm::vec3(1));
 		
 		void CreateWall(glm::vec3 startAt, float width, float height, float blockWidth = 5, float blockHeight = 5, float blockDepth = 5);
+		void CreateIncaPyramid(glm::vec3 startAt, int baseWidth ,float blockWidth, float blockHeight, float blockDepth); 
 		shared_ptr<PhysicsController> CreateRandomObject(glm::vec3 point, glm::quat q);
 		btDiscreteDynamicsWorld * dynamicsWorld;
 	};

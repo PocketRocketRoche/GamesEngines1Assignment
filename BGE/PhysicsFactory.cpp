@@ -259,6 +259,47 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateVehicle(glm::vec3 position)
 
 	return chassis;
 }
+
+//Creation Inca Pyramid of boxes
+void PhysicsFactory::CreateIncaPyramid(glm::vec3 startAt, int baseWidth ,float blockWidth, float blockHeight, float blockDepth)
+{
+		//var to hold the x axis/width.
+        float xPos;	
+		//var to hold the y axis/height.
+        float yPos;  
+		//var to hold the z axis/depth.
+        float zPos;    
+
+		 //for loop to control how the column moves upwards on the Y axis.
+        for(int i = 0; i < baseWidth; i++)                                       
+        {
+			//var to hold hieght gotten by getting starting y point + block height * number of times looped  
+			yPos = startAt.y + (blockHeight * i);                        
+
+			//for loop to control how pyramid moves across the X axis, i is taken away from baseWidth to keep in line with the number of blocks created.
+            for(int j = 0; j < baseWidth - i; j++)                                
+				{
+					//like yPos, var to hold width is gotten by getting starting x point + block widht * number of times looped
+					xPos = startAt.x + (blockWidth * j);                
+
+					// Finally this for loop covers Z axis movement. i is taken away from k to keep in line with the number of blocks created.
+					//last for loop to control pyramid depth
+                    for(int k = 0; k < baseWidth - i; k++)                        
+                        {
+							zPos = startAt.z + (blockDepth * k);   
+
+							//box is created with the correct X, Y, Z axis measurements
+                            CreateBox(blockWidth, blockHeight, blockDepth, glm::vec3(xPos, yPos, zPos), glm::quat()); 
+                        }
+                }
+				//starting pos of x and z must be divided in half to center the origin in the center of the created boxes, essentially inca pyramid shape
+                startAt.x += blockWidth / 2;
+                startAt.z += blockDepth / 2;
+        }
+}
+
+
+//Creation of RagDoll
 shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 position)
 {
         // Creation of body	
@@ -288,6 +329,7 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 position)
         // Head
         shared_ptr<PhysicsController> head = CreateBox(1,2,1, glm::vec3(position.x, position.y + 5, position.z), glm::quat()); 
         
+		//**********************************************
         // Creation of hinge joints
         // Legs
 		//Connect lower left leg to top part of leg with hinge joint

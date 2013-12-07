@@ -128,6 +128,11 @@ bool PortalGame::Initialise()
 	
 	//physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
 
+	// Create Inca Pyramid
+	//position(), baseWidth, blockHeight, blockWidth, blockDepth
+    physicsFactory->CreateIncaPyramid(glm::vec3(20,0,-20), 8, 1.5, 1.5, 1.5);
+
+	//Create Rag Doll
 	physicsFactory->CreateRagDoll(glm::vec3(0,5,-50));
 
 
