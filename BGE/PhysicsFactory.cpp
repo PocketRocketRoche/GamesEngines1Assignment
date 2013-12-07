@@ -171,7 +171,7 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateCylinder(float radius, float
 shared_ptr<PhysicsController> PhysicsFactory::CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat)
 {
 	// Create the shape
-	btCollisionShape * shape = new btCapsuleShape(radius, height);
+	btCollisionShape * shape = new btCapsuleShape(radius,height);
 	btScalar mass = 1;
 	btVector3 inertia(0,0,0);
 	shape->calculateLocalInertia(mass,inertia);
@@ -258,6 +258,45 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateVehicle(glm::vec3 position)
 	dynamicsWorld->addConstraint(hinge);
 
 	return chassis;
+}
+
+shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 pos)
+{
+	float torso_width = 10;
+	float torso_height = 2;
+	float torso_length = 5;
+	float arm_leg_width = 5;
+	float arm_leg_radius = 0.5;
+	float arm__leg_Offset = 3.0f;
+
+	shared_ptr<PhysicsController> torso = CreateBox(torso_width, torso_height, torso_length, pos, glm::quat());
+	shared_ptr<PhysicsController> arm;
+	shared_ptr<PhysicsController> leg;
+	glm::quat q =  glm::angleAxis(glm::half_pi<float>(), glm::vec3(1, 0, 0));
+	
+
+	glm::vec3 offset;
+	btHingeConstraint * hinge;
+
+	offset = glm::vec3(- (torso_width  - 6), 0, - (torso_length / 2 + arm__leg_Offset));
+	arm = CreateCylinder(arm_leg_radius, arm_leg_width, pos + offset, q);	 
+	hinge = new btHingeConstraint(* torso->rigidBody, * arm->rigidBody, GLToBtVector(offset),btVector3(0,0, 0), btVector3(0,0,1), btVector3(0,1,0), true);
+	dynamicsWorld->addConstraint(hinge);
+
+	offset = glm::vec3(- (torso_width  - 6), 0, + (torso_length / 2 + arm__leg_Offset));
+	arm = CreateCylinder(arm_leg_radius, arm_leg_width, pos + offset, q);	 
+	hinge = new btHingeConstraint(* torso->rigidBody, * arm->rigidBody, GLToBtVector(offset),btVector3(0,0, 0), btVector3(0,0,1), btVector3(0,1,0), true);
+	dynamicsWorld->addConstraint(hinge);
+
+	offset = glm::vec3(+ (torso_width +0.5), 1, - (torso_length / 2 ));
+	leg = CreateBox(5, 1, 0.5, pos+offset, glm::quat());
+
+	
+	
+	hinge = new btHingeConstraint(* torso->rigidBody, * leg->rigidBody, GLToBtVector(offset),btVector3(0,0, 0), btVector3(0,0,1), btVector3(0,1,0), true);
+	dynamicsWorld->addConstraint(hinge);
+
+	return torso;
 }
 
 shared_ptr<PhysicsController> PhysicsFactory::CreateGroundPhysics()

@@ -11,7 +11,7 @@ Capsule::Capsule(float radius, float height)
 	model->drawMode = Model::draw_modes::single_material;
 	model->Initialise();
 	diffuse = glm::vec3(RandomFloat(),RandomFloat(),RandomFloat());
-	//specular = glm::vec3(0,0,0);
+	specular = glm::vec3(0,0,0);
 	tag = "Capsule";
 	Attach(model);
 	scale = glm::vec3(0.001,0.001,0.001);
