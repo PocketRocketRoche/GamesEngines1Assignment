@@ -199,6 +199,9 @@
     <ClCompile Include="PortalGame.cpp">
       <Filter>Games</Filter>
     </ClCompile>
+    <ClCompile Include="Capsule.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -365,6 +368,9 @@
     </ClInclude>
     <ClInclude Include="PortalGame.h">
       <Filter>Games</Filter>
+    </ClInclude>
+    <ClInclude Include="Capsule.h">
+      <Filter>Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

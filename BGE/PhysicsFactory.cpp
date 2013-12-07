@@ -3,6 +3,7 @@
 #include "Sphere.h"
 #include "Box.h"
 #include "Cylinder.h"
+#include "Capsule.h"
 #include "Ground.h"
 #include "Content.h"
 #include "PhysicsCamera.h"
@@ -165,6 +166,38 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateCylinder(float radius, float
 
 	return component;
 }
+
+
+shared_ptr<PhysicsController> PhysicsFactory::CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat)
+{
+	// Create the shape
+	btCollisionShape * shape = new btCapsuleShape(radius, height);
+	btScalar mass = 1;
+	btVector3 inertia(0,0,0);
+	shape->calculateLocalInertia(mass,inertia);
+
+	// This is a container for the box model
+	shared_ptr<GameComponent> capsule = make_shared<GameComponent>(Capsule(radius, height));
+	capsule->position = pos;
+	Game::Instance()->Attach(capsule);
+
+	// Create the rigid body
+	btDefaultMotionState * motionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat)
+		,GLToBtVector(pos)));			
+	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(mass,  motionState, shape, inertia);
+	btRigidBody * body = new btRigidBody(rigidBodyCI);
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+	dynamicsWorld->addRigidBody(body);
+
+	// Create the physics component and add it to the box
+	shared_ptr<PhysicsController> component = make_shared<PhysicsController>(PhysicsController(shape, body, motionState));
+	body->setUserPointer(component.get());
+	component->tag = "Capsule";
+	capsule->Attach(component);
+
+	return component;
+}
+
 
 shared_ptr<PhysicsController> PhysicsFactory::CreateCameraPhysics()
 {

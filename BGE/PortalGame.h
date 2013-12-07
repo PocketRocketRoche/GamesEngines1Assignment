@@ -15,6 +15,8 @@ namespace BGE
 		// Set up the collision configuration and dispatcher
 		btDefaultCollisionConfiguration * collisionConfiguration;
 		btCollisionDispatcher * dispatcher;
+	
+		btAlignedObjectArray<btCollisionShape*> shapes;
  
 		// The actual physics solver
 		btSequentialImpulseConstraintSolver * solver;

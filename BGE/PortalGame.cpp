@@ -34,6 +34,7 @@ PortalGame::~PortalGame(void)
 
 
 std::shared_ptr<GameComponent> station;
+//float theta = 0.0f;
 
 bool PortalGame::Initialise() 
 {
@@ -57,19 +58,35 @@ bool PortalGame::Initialise()
 
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
-	
-	physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
+
+	std::shared_ptr<GameComponent> box = make_shared<Box>(1, 1, 1);
+	box->position = glm::vec3(0, 5, -20);
+	Attach(box);
+
+	std::shared_ptr<GameComponent> cyl = make_shared<Cylinder>(2, 6);
+	cyl->position = glm::vec3(15, 5, -20);
+	Attach(cyl);
+	 
+	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
 	shared_ptr<PhysicsController> box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 0), glm::quat()); 
 	shared_ptr<PhysicsController> box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 5), glm::quat()); 
+	shared_ptr<PhysicsController> cap1 = physicsFactory->CreateCapsule(1,1, glm::vec3(5, 50, 5), glm::quat()); 
+	//cap1->scale = glm::vec3(0.001,0.001,0.001);
 
 	 //A hinge
-	btHingeConstraint * hinge = new btHingeConstraint(*box1->rigidBody, *box2->rigidBody, btVector3(0,0,2.5f),btVector3(0,0,-2.5f), btVector3(0,1,0), btVector3(0,1,0), true);
-	dynamicsWorld->addConstraint(hinge);
+	//btHingeConstraint * hinge = new btHingeConstraint(*box1->rigidBody, *box2->rigidBody, btVector3(0,0,2.5f),btVector3(0,0,-2.5f), btVector3(0,1,0), btVector3(0,1,0), true);
+	//dynamicsWorld->addConstraint(hinge);
 
 	box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(10, 5, 0), glm::quat()); 
 	box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(10, 5, 5), glm::quat());
+	//cap1 = physicsFactory->CreateCapsule(5,5, glm::vec3(5, 5, 5), glm::quat());
+
+
+
+
+
 
 	//physicsFactory->CreateCylinder(10, 3, glm::vec3(0, 20, 0), glm::quat());
 
@@ -119,6 +136,7 @@ bool PortalGame::Initialise()
 
 	return true;
 }
+
 
 void BGE::PortalGame::Update(float timeDelta)
 {
