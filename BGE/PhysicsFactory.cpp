@@ -259,45 +259,78 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateVehicle(glm::vec3 position)
 
 	return chassis;
 }
-
-shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 pos)
+shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 position)
 {
-	float torso_width = 10;
-	float torso_height = 2;
-	float torso_length = 5;
-	float arm_leg_width = 5;
-	float arm_leg_radius = 0.5;
-	float arm__leg_Offset = 3.0f;
+        // Creation of body	
 
-	shared_ptr<PhysicsController> torso = CreateBox(torso_width, torso_height, torso_length, pos, glm::quat());
-	shared_ptr<PhysicsController> arm;
-	shared_ptr<PhysicsController> leg;
-	glm::quat q =  glm::angleAxis(glm::half_pi<float>(), glm::vec3(1, 0, 0));
-	
+		 // Torso - This acts as the default position. Every other body part is relative to this co-ordinate.
+        shared_ptr<PhysicsController> torso = CreateBox(3,6,1, glm::vec3(position.x, position.y, position.z), glm::quat()); 
 
-	glm::vec3 offset;
-	btHingeConstraint * hinge;
+		//	LEGS
+		// Right leg
+        shared_ptr<PhysicsController> lowerRightLeg = CreateBox(1,4,1, glm::vec3(position.x + 1, position.y - 10, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperRightLeg = CreateBox(1,4,1, glm::vec3(position.x + 1, position.y - 5, position.z), glm::quat()); 
 
-	offset = glm::vec3(- (torso_width  - 6), 0, - (torso_length / 2 + arm__leg_Offset));
-	arm = CreateCylinder(arm_leg_radius, arm_leg_width, pos + offset, q);	 
-	hinge = new btHingeConstraint(* torso->rigidBody, * arm->rigidBody, GLToBtVector(offset),btVector3(0,0, 0), btVector3(0,0,1), btVector3(0,1,0), true);
-	dynamicsWorld->addConstraint(hinge);
+        // Left leg
+        shared_ptr<PhysicsController> lowerLeftLeg = CreateBox(1,4,1, glm::vec3(position.x - 1, position.y - 10, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperLeftLeg = CreateBox(1,4,1, glm::vec3(position.x - 1, position.y - 5, position.z), glm::quat()); 
 
-	offset = glm::vec3(- (torso_width  - 6), 0, + (torso_length / 2 + arm__leg_Offset));
-	arm = CreateCylinder(arm_leg_radius, arm_leg_width, pos + offset, q);	 
-	hinge = new btHingeConstraint(* torso->rigidBody, * arm->rigidBody, GLToBtVector(offset),btVector3(0,0, 0), btVector3(0,0,1), btVector3(0,1,0), true);
-	dynamicsWorld->addConstraint(hinge);
+		//	ARMS
+		 // Right arm.
+        shared_ptr<PhysicsController> lowerRightArm = CreateBox(1,4,1, glm::vec3(position.x + 3, position.y - 4, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperRightArm = CreateBox(1,4,1, glm::vec3(position.x + 3, position.y + 1, position.z), glm::quat()); 
+                
+        // Left arm.
+        shared_ptr<PhysicsController> lowerLeftArm = CreateBox(1,4,1, glm::vec3(position.x - 3, position.y -4, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperLeftArm = CreateBox(1,4,1, glm::vec3(position.x - 3, position.y + 1, position.z), glm::quat()); 
+        
 
-	offset = glm::vec3(+ (torso_width +0.5), 1, - (torso_length / 2 ));
-	leg = CreateBox(5, 1, 0.5, pos+offset, glm::quat());
+        // Head
+        shared_ptr<PhysicsController> head = CreateBox(1,2,1, glm::vec3(position.x, position.y + 5, position.z), glm::quat()); 
+        
+        // Creation of hinge joints
+        // Legs
+		//Connect lower left leg to top part of leg with hinge joint
+        btHingeConstraint * hinge = new btHingeConstraint(*lowerLeftLeg->rigidBody, *upperLeftLeg->rigidBody, btVector3(0,2.5f,0),btVector3(0,-2.5f,0), btVector3(1,0,0), btVector3(1,0,0), true);
+        dynamicsWorld->addConstraint(hinge);
 
-	
-	
-	hinge = new btHingeConstraint(* torso->rigidBody, * leg->rigidBody, GLToBtVector(offset),btVector3(0,0, 0), btVector3(0,0,1), btVector3(0,1,0), true);
-	dynamicsWorld->addConstraint(hinge);
+		//Connect lower right leg to top part of right with hinge joint
+        hinge = new btHingeConstraint(*lowerRightLeg->rigidBody, *upperRightLeg->rigidBody, btVector3(0,2.5f,0),btVector3(0,-2.5f,0), btVector3(1,0,0), btVector3(1,0,0), true);
+        dynamicsWorld->addConstraint(hinge);
 
-	return torso;
+        // Arms
+		//Connect lower left arm to top part of arm with hinge joint
+        hinge = new btHingeConstraint(*lowerLeftArm->rigidBody, *upperLeftArm->rigidBody, btVector3(0,2.5f,0),btVector3(0,-2.5f,0), btVector3(1,0,0), btVector3(1,0,0), true);
+        dynamicsWorld->addConstraint(hinge);
+
+		//Connect lower left arm to top part of top right arm with hinge joint
+        hinge = new btHingeConstraint(*lowerRightArm->rigidBody, *upperRightArm->rigidBody, btVector3(0,2.5f,0),btVector3(0,-2.5f,0), btVector3(1,0,0), btVector3(1,0,0), true);
+        dynamicsWorld->addConstraint(hinge);
+
+        // Torso
+		//Connect torso to top part of left leg with ball & socket hinge joint
+        btPoint2PointConstraint * ptpConstraint = new btPoint2PointConstraint(*torso->rigidBody, *upperLeftLeg->rigidBody, btVector3(-1,-2.75f,0),btVector3(0,3,0));
+        dynamicsWorld->addConstraint(ptpConstraint);
+
+		//Connect torso to top part of right leg with ball & socket hinge joint
+        ptpConstraint = new btPoint2PointConstraint(*torso->rigidBody, *upperRightLeg->rigidBody, btVector3(1,-2.75f,0),btVector3(0,3,0));
+        dynamicsWorld->addConstraint(ptpConstraint);
+
+		//Connect torso to top part of left arm with ball & socket hinge joint
+        ptpConstraint = new btPoint2PointConstraint(*torso->rigidBody, *upperLeftArm->rigidBody, btVector3(-2.5f,2.5f,0),btVector3(0,2.5f,0));
+        dynamicsWorld->addConstraint(ptpConstraint);
+
+		//Connect torso to top part of right arm with ball & socket hinge joint
+        ptpConstraint = new btPoint2PointConstraint(*torso->rigidBody, *upperRightArm->rigidBody, btVector3(2.5f,2.5f,0),btVector3(0,2.5f,0));
+        dynamicsWorld->addConstraint(ptpConstraint);
+
+        // Head
+		//Connect torso to head
+        ptpConstraint = new btPoint2PointConstraint(*torso->rigidBody, *head->rigidBody, btVector3(0, 2.75f,0),btVector3(0,-1.5f,0));
+        dynamicsWorld->addConstraint(ptpConstraint);
+		return torso;
 }
+
 
 shared_ptr<PhysicsController> PhysicsFactory::CreateGroundPhysics()
 {

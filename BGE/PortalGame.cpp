@@ -126,9 +126,10 @@ bool PortalGame::Initialise()
 	//station->Attach(ship1);
 
 	
-	physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
+	//physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
 
 	physicsFactory->CreateRagDoll(glm::vec3(0,5,-50));
+
 
 	if (!Game::Initialise()) {
 		return false;
