@@ -64,22 +64,25 @@ bool PortalGame::Initialise()
 	Attach(box);
 
 	//floating cyl (kinematic)
-	std::shared_ptr<GameComponent> cyl = make_shared<Cylinder>(2, 1);
-	cyl->position = glm::vec3(10, 0, -10);
-	Attach(cyl);
+	//std::shared_ptr<GameComponent> cyl = make_shared<Cylinder>(2, 1);
+	//cyl->position = glm::vec3(10, 0, -10);
+	//Attach(cyl);
 
 	//non kinematic cyl
 	shared_ptr<PhysicsController> colCyl = physicsFactory->CreateCylinder(2,1, glm::vec3(5, 0, -10), glm::quat()); 
 
+	colCyl->tag="colObject1";
+
 	//box for collision
 	shared_ptr<PhysicsController> colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); 
-	 
+	colBox->tag="colObject2"; 
+
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
 	/*shared_ptr<PhysicsController> box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 0), glm::quat()); 
-	shared_ptr<PhysicsController> box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 5), glm::quat()); 
-	shared_ptr<PhysicsController> cap1 = physicsFactory->CreateCapsule(1,1, glm::vec3(5, 50, 5), glm::quat()); */
+	shared_ptr<PhysicsController> box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 5), glm::quat()); */
+	//shared_ptr<PhysicsController> cap1 = physicsFactory->CreateCapsule(1,1, glm::vec3(5, 50, 5), glm::quat()); 
 	//cap1->scale = glm::vec3(0.001,0.001,0.001);
 
 	 //A hinge
@@ -133,14 +136,14 @@ bool PortalGame::Initialise()
 	//station->Attach(ship1);
 
 	
-	physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
+	//physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
 
 	// Create Inca Pyramid
 	//position(), baseWidth, blockHeight, blockWidth, blockDepth
-    physicsFactory->CreateIncaPyramid(glm::vec3(20,0,-20), 6, 1.5, 1.5, 1.5);
+    //physicsFactory->CreateIncaPyramid(glm::vec3(20,0,-20), 6, 1.5, 1.5, 1.5);
 
 	//Create Rag Doll
-	physicsFactory->CreateRagDoll(glm::vec3(0,5,-50));
+	//physicsFactory->CreateRagDoll(glm::vec3(25,0,-50));
 
 
 	if (!Game::Initialise()) {
@@ -169,14 +172,22 @@ void BGE::PortalGame::Update(float timeDelta)
 				// btCollisionObject* obA = (btCollisionObject*)(contactManifold->colCyl = physicsFactory->CreateCylinder(2,1, glm::vec3(5, 0, -10), glm::quat()); );
 				//btCollisionObject* obB = (btCollisionObject*)(contactManifold->colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); );
                 PhysicsController * pcA = reinterpret_cast<PhysicsController*>(obA->getUserPointer());
-                PhysicsController * pcB = reinterpret_cast<PhysicsController*>(obA->getUserPointer());
+                PhysicsController * pcB = reinterpret_cast<PhysicsController*>(obB->getUserPointer());
 
                 int numContacts = contactManifold->getNumContacts();
                 if (numContacts > 0)
                 {
                         if ((pcA != nullptr) && (pcB != nullptr))
                         {
-                              //  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+							//PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+							if (pcA->tag == "colObject1" && pcB->tag == "colObject2")
+                            {
+								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+							}
+							/*if (pcB->tag == "colObject1" && pcA->tag == "colObject2")
+                            {
+								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+							}*/
                         }
                 }
         }

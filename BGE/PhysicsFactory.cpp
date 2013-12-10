@@ -309,25 +309,25 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateRagDoll(glm::vec3 position)
 
 		//	LEGS
 		// Right leg
-        shared_ptr<PhysicsController> lowerRightLeg = CreateBox(1,4,1, glm::vec3(position.x + 1, position.y - 10, position.z), glm::quat()); 
-        shared_ptr<PhysicsController> upperRightLeg = CreateBox(1,4,1, glm::vec3(position.x + 1, position.y - 5, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> lowerRightLeg = CreateBox(1,3,1, glm::vec3(position.x + 1, position.y - 10, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperRightLeg = CreateBox(1,2,1, glm::vec3(position.x + 1, position.y - 5, position.z), glm::quat()); 
 
         // Left leg
-        shared_ptr<PhysicsController> lowerLeftLeg = CreateBox(1,4,1, glm::vec3(position.x - 1, position.y - 10, position.z), glm::quat()); 
-        shared_ptr<PhysicsController> upperLeftLeg = CreateBox(1,4,1, glm::vec3(position.x - 1, position.y - 5, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> lowerLeftLeg = CreateBox(1,3,1, glm::vec3(position.x - 1, position.y - 10, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperLeftLeg = CreateBox(1,3,1, glm::vec3(position.x - 1, position.y - 5, position.z), glm::quat()); 
 
 		//	ARMS
 		 // Right arm.
-        shared_ptr<PhysicsController> lowerRightArm = CreateBox(1,4,1, glm::vec3(position.x + 3, position.y - 4, position.z), glm::quat()); 
-        shared_ptr<PhysicsController> upperRightArm = CreateBox(1,4,1, glm::vec3(position.x + 3, position.y + 1, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> lowerRightArm = CreateBox(1,3,1, glm::vec3(position.x + 3, position.y - 4, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperRightArm = CreateBox(1,3,1, glm::vec3(position.x + 3, position.y + 1, position.z), glm::quat()); 
                 
         // Left arm.
-        shared_ptr<PhysicsController> lowerLeftArm = CreateBox(1,4,1, glm::vec3(position.x - 3, position.y -4, position.z), glm::quat()); 
-        shared_ptr<PhysicsController> upperLeftArm = CreateBox(1,4,1, glm::vec3(position.x - 3, position.y + 1, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> lowerLeftArm = CreateBox(1,3,1, glm::vec3(position.x - 3, position.y -4, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> upperLeftArm = CreateBox(1,3,1, glm::vec3(position.x - 3, position.y + 1, position.z), glm::quat()); 
         
 
         // Head
-        shared_ptr<PhysicsController> head = CreateBox(1,2,1, glm::vec3(position.x, position.y + 5, position.z), glm::quat()); 
+        shared_ptr<PhysicsController> head = CreateBox(1,1,1, glm::vec3(position.x, position.y + 5, position.z), glm::quat()); 
         
 		//**********************************************
         // Creation of hinge joints
