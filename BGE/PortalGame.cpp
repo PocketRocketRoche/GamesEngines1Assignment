@@ -63,24 +63,31 @@ bool PortalGame::Initialise()
 	box->position = glm::vec3(0, 5, -20);
 	Attach(box);
 
-	std::shared_ptr<GameComponent> cyl = make_shared<Cylinder>(2, 6);
-	cyl->position = glm::vec3(15, 5, -20);
+	//floating cyl (kinematic)
+	std::shared_ptr<GameComponent> cyl = make_shared<Cylinder>(2, 1);
+	cyl->position = glm::vec3(10, 0, -10);
 	Attach(cyl);
+
+	//non kinematic cyl
+	shared_ptr<PhysicsController> colCyl = physicsFactory->CreateCylinder(2,1, glm::vec3(5, 0, -10), glm::quat()); 
+
+	//box for collision
+	shared_ptr<PhysicsController> colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); 
 	 
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
-	shared_ptr<PhysicsController> box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 0), glm::quat()); 
+	/*shared_ptr<PhysicsController> box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 0), glm::quat()); 
 	shared_ptr<PhysicsController> box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(5, 5, 5), glm::quat()); 
-	shared_ptr<PhysicsController> cap1 = physicsFactory->CreateCapsule(1,1, glm::vec3(5, 50, 5), glm::quat()); 
+	shared_ptr<PhysicsController> cap1 = physicsFactory->CreateCapsule(1,1, glm::vec3(5, 50, 5), glm::quat()); */
 	//cap1->scale = glm::vec3(0.001,0.001,0.001);
 
 	 //A hinge
 	//btHingeConstraint * hinge = new btHingeConstraint(*box1->rigidBody, *box2->rigidBody, btVector3(0,0,2.5f),btVector3(0,0,-2.5f), btVector3(0,1,0), btVector3(0,1,0), true);
 	//dynamicsWorld->addConstraint(hinge);
 
-	box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(10, 5, 0), glm::quat()); 
-	box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(10, 5, 5), glm::quat());
+	//box1 = physicsFactory->CreateBox(1,1,4, glm::vec3(10, 5, 0), glm::quat()); 
+	//box2 = physicsFactory->CreateBox(1,1,4, glm::vec3(10, 5, 5), glm::quat());
 	//cap1 = physicsFactory->CreateCapsule(5,5, glm::vec3(5, 5, 5), glm::quat());
 
 
@@ -126,11 +133,11 @@ bool PortalGame::Initialise()
 	//station->Attach(ship1);
 
 	
-	//physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
+	physicsFactory->CreateVehicle(glm::vec3(0,10,-30));
 
 	// Create Inca Pyramid
 	//position(), baseWidth, blockHeight, blockWidth, blockDepth
-    physicsFactory->CreateIncaPyramid(glm::vec3(20,0,-20), 8, 1.5, 1.5, 1.5);
+    physicsFactory->CreateIncaPyramid(glm::vec3(20,0,-20), 6, 1.5, 1.5, 1.5);
 
 	//Create Rag Doll
 	physicsFactory->CreateRagDoll(glm::vec3(0,5,-50));
@@ -151,7 +158,32 @@ void BGE::PortalGame::Update(float timeDelta)
 {
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	//station->Yaw(timeDelta * 20.0f);
+
+	//collision detection check
+	 int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+        for (int i=0;i<numManifolds;i++)
+        {
+                btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+                btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
+				btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
+				// btCollisionObject* obA = (btCollisionObject*)(contactManifold->colCyl = physicsFactory->CreateCylinder(2,1, glm::vec3(5, 0, -10), glm::quat()); );
+				//btCollisionObject* obB = (btCollisionObject*)(contactManifold->colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); );
+                PhysicsController * pcA = reinterpret_cast<PhysicsController*>(obA->getUserPointer());
+                PhysicsController * pcB = reinterpret_cast<PhysicsController*>(obA->getUserPointer());
+
+                int numContacts = contactManifold->getNumContacts();
+                if (numContacts > 0)
+                {
+                        if ((pcA != nullptr) && (pcB != nullptr))
+                        {
+                              //  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+                        }
+                }
+        }
+
 	Game::Update(timeDelta);
+
+
 }
 
 void BGE::PortalGame::Cleanup()
