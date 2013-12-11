@@ -90,7 +90,19 @@ bool PortalGame::Initialise()
 	colBall_01->tag="colObject1";
 
 
+	//create walls for games
+	//left wall for box 1
+	shared_ptr<PhysicsController> leftWall1 = physicsFactory->CreateBox(0.5,10,15, glm::vec3(-10, 0, -20), glm::quat()); 
+	leftWall1->diffuse = glm::vec3(1,0,1);
+	//leftWall1
 
+	//right wall for box 1
+	shared_ptr<PhysicsController> rightWall1 = physicsFactory->CreateBox(0.5,10,15, glm::vec3(-2, 0, -20), glm::quat()); 
+	rightWall1->diffuse = glm::vec3(1,0,1);	
+
+	//top wall for box 1
+	shared_ptr<PhysicsController> topWall1 = physicsFactory->CreateBox(15,0.5,15, glm::vec3(-4, 0, -20), glm::quat()); 
+	topWall1->diffuse = glm::vec3(1,0,1);	
 
 
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
