@@ -3,7 +3,9 @@
 #include "PhysicsController.h"
 #include "PhysicsFactory.h"
 #include <btBulletDynamicsCommon.h>
+#include "FountainEffect.h"
 
+#define FOUNTAIN_HEIGHT 10.0f
 namespace BGE
 {
 	class PortalGame :
@@ -15,6 +17,7 @@ namespace BGE
 		// Set up the collision configuration and dispatcher
 		btDefaultCollisionConfiguration * collisionConfiguration;
 		btCollisionDispatcher * dispatcher;
+
 	
 		btAlignedObjectArray<btCollisionShape*> shapes;
  
@@ -28,6 +31,7 @@ namespace BGE
 		void Update(float timeDelta);
 		void Cleanup();
 		void CreateWall();
+		shared_ptr<FountainEffect> centFountain;
 
 		int score;
 		

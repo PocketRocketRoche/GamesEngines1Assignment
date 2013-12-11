@@ -61,9 +61,9 @@ bool PortalGame::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
 
-	//std::shared_ptr<GameComponent> box = make_shared<Box>(1, 1, 1);
-	//box->position = glm::vec3(0, 5, -20);
-	//Attach(box);
+	/*std::shared_ptr<GameComponent> box = make_shared<Box>(1, 1, 1);
+	box->position = glm::vec3(0, 5, -20);
+	Attach(box);*/
 
 	//*************cyl box items****************
 	// Stands for Box Objects 
@@ -116,6 +116,18 @@ bool PortalGame::Initialise()
 
 	shared_ptr<PhysicsController> colBall_03 = physicsFactory->CreateSphere(0.5,glm::vec3(18, 0, 10),glm::quat());
 	colBall_03->tag="colObject2";
+
+
+
+	centFountain = make_shared<FountainEffect>(50);
+	centFountain->position.x = centFountain->position.y =  centFountain->position.z = 0;
+	centFountain->diffuse = glm::vec3(1,1,0);
+	Attach(centFountain);
+	
+	
+
+	
+
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
@@ -230,6 +242,11 @@ void BGE::PortalGame::Update(float timeDelta)
                         }
                 }
         }
+
+		if ((keyState[SDL_SCANCODE_SPACE]))
+		{
+			//Attach Fountain here 
+		}
 
 	//stringstream ss;
 	//ss << "Score: " << score;
