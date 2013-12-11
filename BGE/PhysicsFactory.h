@@ -21,6 +21,7 @@ namespace BGE
 		shared_ptr<PhysicsController> CreateCapsule(float radius, float height, glm::vec3 pos, glm::quat quat);
 		shared_ptr<PhysicsController> CreateVehicle(glm::vec3 pos);
 		shared_ptr<PhysicsController> CreateRagDoll(glm::vec3 pos);
+		shared_ptr<PhysicsController> PhysicsFactory::CreateWall(float width, float height, float depth, glm::vec3 pos, glm::quat quat);
 		//shared_ptr<PhysicsController> CreateIncaPyramid(glm::vec3 startAt, int baseWidth ,float blockWidth, float blockHeight, float blockDepth);
 		shared_ptr<PhysicsController> CreateCameraPhysics();
 		shared_ptr<PhysicsController> CreateGroundPhysics();

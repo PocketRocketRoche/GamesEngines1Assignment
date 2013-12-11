@@ -136,6 +136,37 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateBox(float width, float heigh
 
 	return boxController;
 }
+shared_ptr<PhysicsController> PhysicsFactory::CreateWall(float width, float height, float depth, glm::vec3 pos, glm::quat quat)
+{
+	// Create the shape
+	btCollisionShape * boxShape = new btBoxShape(btVector3(width, height, depth) * 0.5);
+	btScalar mass = 100;
+	btVector3 boxInertia(0,0,0);
+	boxShape->calculateLocalInertia(mass,boxInertia);
+
+	// This is a container for the box model
+	shared_ptr<Box> box = make_shared<Box>(width, height, depth);
+	box->worldMode = GameComponent::from_child;
+	box->position = pos;
+	Game::Instance()->Attach(box);
+
+	// Create the rigid body
+	btDefaultMotionState * boxMotionState = new btDefaultMotionState(btTransform(GLToBtQuat(quat)
+		,GLToBtVector(pos)));			
+	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass,  boxMotionState, boxShape, boxInertia);
+	btRigidBody * body = new btRigidBody(fallRigidBodyCI);
+	body->setFriction(567);
+	dynamicsWorld->addRigidBody(body);
+
+	// Create the physics component and add it to the box
+	shared_ptr<PhysicsController> boxController = make_shared<PhysicsController>(PhysicsController(boxShape, body, boxMotionState));
+	boxController->tag = "Wall";
+	body->setUserPointer(boxController.get());
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+	box->Attach(boxController);
+
+	return boxController;
+}
 
 shared_ptr<PhysicsController> PhysicsFactory::CreateCylinder(float radius, float height, glm::vec3 pos, glm::quat quat)
 {
