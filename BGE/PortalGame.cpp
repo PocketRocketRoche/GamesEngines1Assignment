@@ -103,19 +103,19 @@ bool PortalGame::Initialise()
 	roof->diffuse = glm::vec3(1,0,1);	
 
 	//back wall
-	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(19.87,13,0.5, glm::vec3(12.025, 0, -6.3), glm::quat()); 
+	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(19.95,13,0.5, glm::vec3(12.45, 0, -6.3), glm::quat()); 
 	backWall1->diffuse = glm::vec3(1,0,1);
 
 	//*************Balls****************
 	// Ball to throw at Boxes
 	shared_ptr<PhysicsController> colBall_01 = physicsFactory->CreateSphere(0.5,glm::vec3(5, 0, 10),glm::quat());
-	colBall_01->tag="colObject12";
+	colBall_01->tag="colObject1";
 
 	shared_ptr<PhysicsController> colBall_02 = physicsFactory->CreateSphere(0.5,glm::vec3(12, 0, 10),glm::quat());
-	colBall_01->tag="colObject2";
+	colBall_02->tag="colObject2";
 
 	shared_ptr<PhysicsController> colBall_03 = physicsFactory->CreateSphere(0.5,glm::vec3(18, 0, 10),glm::quat());
-	colBall_01->tag="colObject2";
+	colBall_03->tag="colObject3";
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
@@ -209,8 +209,6 @@ void BGE::PortalGame::Update(float timeDelta)
                 btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
                 btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
 				btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
-				// btCollisionObject* obA = (btCollisionObject*)(contactManifold->colCyl = physicsFactory->CreateCylinder(2,1, glm::vec3(5, 0, -10), glm::quat()); );
-				//btCollisionObject* obB = (btCollisionObject*)(contactManifold->colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); );
                 PhysicsController * pcA = reinterpret_cast<PhysicsController*>(obA->getUserPointer());
                 PhysicsController * pcB = reinterpret_cast<PhysicsController*>(obB->getUserPointer());
 
@@ -233,9 +231,9 @@ void BGE::PortalGame::Update(float timeDelta)
                 }
         }
 
-	stringstream ss;
-	ss << "Score: " << score;
-	Game::Instance()->PrintText(ss.str());
+	//stringstream ss;
+	//ss << "Score: " << score;
+	//Game::Instance()->PrintText(ss.str());
 
 	Game::Update(timeDelta);
 
