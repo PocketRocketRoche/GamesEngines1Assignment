@@ -63,7 +63,7 @@ bool PortalGame::Initialise()
 	//box->position = glm::vec3(0, 5, -20);
 	//Attach(box);
 
-	//non kinematic cyl
+	//*************cyl box items****************
 	// Stands for Box Objects 
 	shared_ptr<PhysicsController> colCyl_01 = physicsFactory->CreateCylinder(0.5,5, glm::vec3(5, 0, 0), glm::quat()); 
 	//colCyl_01->tag="colObject_01";
@@ -78,13 +78,33 @@ bool PortalGame::Initialise()
 	shared_ptr<PhysicsController> colCyl_03 = physicsFactory->CreateCylinder(0.5,8, glm::vec3(18, 0, 0), glm::quat()); 
 	shared_ptr<PhysicsController> colBox_03 = physicsFactory->CreateBox(1,1,1, glm::vec3(18, 10, 0), glm::quat()); 
 	colBox_03->tag="colObject2"; 
- 
- 	//box for collision
-	shared_ptr<PhysicsController> colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); 
-	/*shared_ptr<PhysicsController> colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 10, 0), glm::quat()); 
- 	colBox->tag="colObject2"; 
-+	*/
 
+	//*************Walls****************
+	//left wall 
+	shared_ptr<PhysicsController> leftWall1 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(3, 0, 0), glm::quat()); 
+	leftWall1->diffuse = glm::vec3(1,0,1);
+
+	//middle wall 1 
+	shared_ptr<PhysicsController> middleWall1 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(9, 0, 0), glm::quat()); 
+	leftWall1->diffuse = glm::vec3(1,0,1);
+
+	//middle wall 2
+	shared_ptr<PhysicsController> middleWall2 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(15, 0, 0), glm::quat()); 
+	middleWall2->diffuse = glm::vec3(1,0,1);	
+
+	//right wall 
+	shared_ptr<PhysicsController> rightWall1 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(21, 0, 0), glm::quat()); 
+	rightWall1->diffuse = glm::vec3(1,0,1);	
+
+	//roof
+	shared_ptr<PhysicsController> roof = physicsFactory->CreateWall(20,0.5,15.3, glm::vec3(12, 14, 0), glm::quat()); 
+	roof->diffuse = glm::vec3(1,0,1);	
+
+	//back wall
+	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(19.8,13,0.5, glm::vec3(12, 0, -6.3), glm::quat()); 
+	backWall1->diffuse = glm::vec3(1,0,1);
+
+	//*************Balls****************
 	// Ball to throw at Boxes
 	shared_ptr<PhysicsController> colBall_01 = physicsFactory->CreateSphere(0.5,glm::vec3(5, 0, 10),glm::quat());
 	colBall_01->tag="colObject1";
@@ -94,24 +114,6 @@ bool PortalGame::Initialise()
 
 	shared_ptr<PhysicsController> colBall_03 = physicsFactory->CreateSphere(0.5,glm::vec3(18, 0, 10),glm::quat());
 	colBall_01->tag="colObject1";
-
-
-
-	//create walls for games
-	//left wall for box 1
-	shared_ptr<PhysicsController> leftWall1 = physicsFactory->CreateWall(0.5,10,15, glm::vec3(-10, 0, -20), glm::quat()); 
-	leftWall1->diffuse = glm::vec3(1,0,1);
-	//leftWall1
-
-	//right wall for box 1
-	shared_ptr<PhysicsController> rightWall1 = physicsFactory->CreateWall(0.5,10,15, glm::vec3(-2, 0, -20), glm::quat()); 
-	rightWall1->diffuse = glm::vec3(1,0,1);	
-
-	//top wall for box 1
-	shared_ptr<PhysicsController> topWall1 = physicsFactory->CreateWall(8.5,0.5,15, glm::vec3(-6, 12, -20), glm::quat()); 
-	topWall1->diffuse = glm::vec3(1,0,1);	
-
-
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
