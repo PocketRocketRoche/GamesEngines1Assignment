@@ -67,10 +67,35 @@ bool PortalGame::Initialise()
 	shared_ptr<PhysicsController> colCyl = physicsFactory->CreateCylinder(2,1, glm::vec3(5, 0, -10), glm::quat()); 
 
 	colCyl->tag="colObject1";
+<<<<<<< HEAD
 
 	//box for collision
 	shared_ptr<PhysicsController> colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); 
 	colBox->tag="colObject2"; 
+
+	//create walls for games
+	//left wall for box 1
+	shared_ptr<PhysicsController> leftWall1 = physicsFactory->CreateBox(0.5,10,15, glm::vec3(-10, 0, -20), glm::quat()); 
+	leftWall1->diffuse = glm::vec3(1,0,1);
+	//leftWall1
+
+	//right wall for box 1
+	shared_ptr<PhysicsController> rightWall1 = physicsFactory->CreateBox(0.5,10,15, glm::vec3(-2, 0, -20), glm::quat()); 
+	rightWall1->diffuse = glm::vec3(1,0,1);	
+
+	//top wall for box 1
+	shared_ptr<PhysicsController> topWall1 = physicsFactory->CreateBox(15,0.5,15, glm::vec3(-4, 0, -20), glm::quat()); 
+	topWall1->diffuse = glm::vec3(1,0,1);	
+
+
+
+
+=======
+
+	//box for collision
+	shared_ptr<PhysicsController> colBox = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 0, 0), glm::quat()); 
+	colBox->tag="colObject2"; 
+>>>>>>> parent of 8bc7c50... Added in Stands and Boxes to hit
 
 	//create walls for games
 	//left wall for box 1
