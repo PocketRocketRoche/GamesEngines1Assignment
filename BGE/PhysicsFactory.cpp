@@ -141,7 +141,7 @@ shared_ptr<PhysicsController> PhysicsFactory::CreateCylinder(float radius, float
 {
 	// Create the shape
 	btCollisionShape * shape = new btCylinderShape(btVector3(radius, height * 0.5f, radius));
-	btScalar mass = 1;
+	btScalar mass = 100;
 	btVector3 inertia(0,0,0);
 	shape->calculateLocalInertia(mass,inertia);
 

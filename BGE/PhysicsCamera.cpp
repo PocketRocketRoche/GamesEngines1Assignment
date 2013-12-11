@@ -44,7 +44,7 @@ void PhysicsCamera::Update(float timeDelta)
 	float moveSpeed = speed;
 	float timeToPass = 1.0f / fireRate;
 
-	if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
+	/*if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
 	{
 		glm::vec3 pos = parent->position + (parent->look * 5.0f);
 		glm::quat q(RandomFloat(), RandomFloat(), RandomFloat(), RandomFloat());
@@ -58,7 +58,7 @@ void PhysicsCamera::Update(float timeDelta)
 	else
 	{
 		elapsed += timeDelta;
-	}
+	}*/
 	string what = "Nothing";
 	// Handle the gravity gun
 	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3))
@@ -103,7 +103,7 @@ void PhysicsCamera::Update(float timeDelta)
 			pickedUp->rigidBody->setLinearVelocity(GLToBtVector(v));    
 			pickedUp->rigidBody->activate();		
 			what = pickedUp->tag;
-			if ((keyState[SDL_SCANCODE_P]) && (elapsed > timeToPass))
+			if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
 	{
 		//force of H
 		float force = 1000.0f;
