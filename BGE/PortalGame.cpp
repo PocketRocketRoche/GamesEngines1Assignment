@@ -70,16 +70,16 @@ bool PortalGame::Initialise()
 	shared_ptr<PhysicsController> colCyl_01 = physicsFactory->CreateCylinder(0.5,5, glm::vec3(5, 0, 0), glm::quat()); 
 	//colCyl_01->tag="colObject_01";
 	shared_ptr<PhysicsController> colBox_01 = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 7, 0), glm::quat()); 
-	colBox_01->tag="colObject2"; 
+	colBox_01->tag="colObject1"; 
 
 	shared_ptr<PhysicsController> colCyl_02 = physicsFactory->CreateCylinder(0.5,10, glm::vec3(12, 0, 0), glm::quat());
 
 	shared_ptr<PhysicsController> colBox_02 = physicsFactory->CreateBox(1,1,1, glm::vec3(12, 10, 0), glm::quat()); 
-	colBox_02->tag="colObject2"; 
+	colBox_02->tag="colObject1"; 
 
 	shared_ptr<PhysicsController> colCyl_03 = physicsFactory->CreateCylinder(0.5,8, glm::vec3(18, 0, 0), glm::quat()); 
 	shared_ptr<PhysicsController> colBox_03 = physicsFactory->CreateBox(1,1,1, glm::vec3(18, 10, 0), glm::quat()); 
-	colBox_03->tag="colObject2"; 
+	colBox_03->tag="colObject1"; 
 
 	//*************Walls****************
 	//left wall 
@@ -109,13 +109,13 @@ bool PortalGame::Initialise()
 	//*************Balls****************
 	// Ball to throw at Boxes
 	shared_ptr<PhysicsController> colBall_01 = physicsFactory->CreateSphere(0.5,glm::vec3(5, 0, 10),glm::quat());
-	colBall_01->tag="colObject1";
+	colBall_01->tag="colObject2";
 
 	shared_ptr<PhysicsController> colBall_02 = physicsFactory->CreateSphere(0.5,glm::vec3(12, 0, 10),glm::quat());
-	colBall_02->tag="colObject1";
+	colBall_02->tag="colObject2";
 
 	shared_ptr<PhysicsController> colBall_03 = physicsFactory->CreateSphere(0.5,glm::vec3(18, 0, 10),glm::quat());
-	colBall_03->tag="colObject1";
+	colBall_03->tag="colObject2";
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
 	 //Now some constraints
