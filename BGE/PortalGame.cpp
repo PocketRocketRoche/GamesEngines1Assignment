@@ -230,10 +230,21 @@ void BGE::PortalGame::Update(float timeDelta)
                         if ((pcA != nullptr) && (pcB != nullptr))
                         {
 							//PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+							static bool lastHit = false;
 							if (pcA->tag == "colObject1" && pcB->tag == "colObject2")
                             {
 								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
-								  //score += 10;
+								  if( ! lastHit)
+								  {
+									  score += 10;
+								  }
+								  lastHit = true;
+
+								  
+							}
+							else
+							{
+								lastHit = false;
 							}
 							/*if (pcB->tag == "colObject1" && pcA->tag == "colObject2")
                             {
@@ -248,9 +259,9 @@ void BGE::PortalGame::Update(float timeDelta)
 			//Attach Fountain here 
 		}
 
-	//stringstream ss;
-	//ss << "Score: " << score;
-	//Game::Instance()->PrintText(ss.str());
+	stringstream ss;
+	ss << "Score: " << score;
+	Game::Instance()->PrintText(ss.str());
 
 	Game::Update(timeDelta);
 
