@@ -25,6 +25,7 @@ PortalGame::PortalGame(void)
 	dispatcher = NULL;
 	solver = NULL;
 	fullscreen = false;
+	score = 0;
 }
 
 
@@ -38,6 +39,7 @@ std::shared_ptr<GameComponent> station;
 
 bool PortalGame::Initialise() 
 {
+	score = 0;
 	riftEnabled = false;
 	// Set up the collision configuration and dispatcher
     collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -196,6 +198,7 @@ bool PortalGame::Initialise()
 
 void BGE::PortalGame::Update(float timeDelta)
 {
+	
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	//station->Yaw(timeDelta * 20.0f);
 
@@ -220,6 +223,7 @@ void BGE::PortalGame::Update(float timeDelta)
 							if (pcA->tag == "colObject1" && pcB->tag == "colObject2")
                             {
 								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+								  score += 10;
 							}
 							/*if (pcB->tag == "colObject1" && pcA->tag == "colObject2")
                             {
@@ -228,6 +232,10 @@ void BGE::PortalGame::Update(float timeDelta)
                         }
                 }
         }
+
+	stringstream ss;
+	ss << "Score: " << score;
+	Game::Instance()->PrintText(ss.str());
 
 	Game::Update(timeDelta);
 

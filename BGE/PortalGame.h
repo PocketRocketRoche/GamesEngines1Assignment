@@ -28,6 +28,8 @@ namespace BGE
 		void Update(float timeDelta);
 		void Cleanup();
 		void CreateWall();
+
+		int score;
 		
 		// The world.
 		std::shared_ptr<PhysicsFactory> physicsFactory;
