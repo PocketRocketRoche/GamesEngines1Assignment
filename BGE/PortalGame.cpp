@@ -83,7 +83,7 @@ bool PortalGame::Initialise()
 
 	//*************Walls****************
 	//left wall 
-	shared_ptr<PhysicsController> leftWall1 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(3, 0, 0), glm::quat()); 
+	shared_ptr<PhysicsController> leftWall1 = physicsFactory->CreateWall(0.47,13,15, glm::vec3(3.05, 0, 0), glm::quat()); 
 	leftWall1->diffuse = glm::vec3(1,0,1);
 
 	//middle wall 1 
@@ -95,7 +95,7 @@ bool PortalGame::Initialise()
 	middleWall2->diffuse = glm::vec3(1,0,1);	
 
 	//right wall 
-	shared_ptr<PhysicsController> rightWall1 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(21, 0, 0), glm::quat()); 
+	shared_ptr<PhysicsController> rightWall1 = physicsFactory->CreateWall(0.5,13,15, glm::vec3(21.25, 0, 0), glm::quat()); 
 	rightWall1->diffuse = glm::vec3(1,0,1);	
 
 	//roof
@@ -103,7 +103,7 @@ bool PortalGame::Initialise()
 	roof->diffuse = glm::vec3(1,0,1);	
 
 	//back wall
-	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(19.8,13,0.5, glm::vec3(12, 0, -6.3), glm::quat()); 
+	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(19.87,13,0.5, glm::vec3(12.025, 0, -6.3), glm::quat()); 
 	backWall1->diffuse = glm::vec3(1,0,1);
 
 	//*************Balls****************
