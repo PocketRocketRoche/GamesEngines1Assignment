@@ -30,6 +30,7 @@ void CheckOverflow( int & x )
 
 void FPSController::Update(float timeDelta)
 {
+	stringstream ss;
 	SDL_Joystick * joystick;
 
 	SDL_JoystickEventState(SDL_ENABLE);
@@ -81,8 +82,17 @@ void FPSController::Update(float timeDelta)
 					float pitch = ((float) y / (float) numeric_limits<short int>::max()) * range;
 					Pitch((int) -pitch);
 				}
+
+
+				// Check the A button pressed
+				int ab = SDL_JoystickGetButton(joy, 10);
+				if (ab)
+				{
+					Game::Instance()->PrintText("A pressed !");
+					
+				}
 				
-				stringstream ss;
+				
 				ss << SDL_JoystickNameForIndex(0) << " detected";
 				Game::Instance()->PrintText(ss.str());
 
@@ -100,7 +110,6 @@ void FPSController::Update(float timeDelta)
 			Game::Instance()->PrintText("No game controller detected");
 		}
 
-		stringstream ss;
 		ss << "Gamepad Pos: " << position.x << " " << position.y << " " << position.z;
 		Game::Instance()->PrintText(ss.str());
 

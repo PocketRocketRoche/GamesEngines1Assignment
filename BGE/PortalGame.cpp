@@ -108,7 +108,7 @@ bool PortalGame::Initialise()
 	roof->diffuse = glm::vec3(1,0,1);	
 
 	//back wall
-	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(19.95,13,0.5, glm::vec3(12.45, 0, -6.3), glm::quat()); 
+	shared_ptr<PhysicsController> backWall1 = physicsFactory->CreateWall(20.2,13,0.5, glm::vec3(12.18, 0, -6.3), glm::quat()); 
 	backWall1->diffuse = glm::vec3(1,0,1);
 
 	//*************Balls****************
@@ -219,16 +219,11 @@ void BGE::PortalGame::Update(float timeDelta)
 			//Attach Fountain here 
 		}
 
-	stringstream ss;
-	ss << "Score: " << score;
-	Game::Instance()->PrintText(ss.str());
+		stringstream ss;
+		ss << "Score: " << score;
+		Game::Instance()->PrintText(ss.str());
 
-		//stringstream ss;
-		//ss << "Score: " << score;
-		//Game::Instance()->PrintText(ss.str());
-
-
-		PrintText("Score" + score);
+		
 		Game::Update(timeDelta);
 
 

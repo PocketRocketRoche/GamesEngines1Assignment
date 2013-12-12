@@ -38,6 +38,12 @@ void PhysicsCamera::Update(float timeDelta)
 	// Override the one in the base class, we do not want to update our world transform from the physics object
 	// WHich is what the one in the base class does...
 
+	SDL_Joystick * joystick;
+
+	SDL_JoystickEventState(SDL_ENABLE);
+    joystick = SDL_JoystickOpen(0);
+
+
 	const Uint8 * keyState = Game::Instance()->GetKeyState();
 	Game * game = Game::Instance();
 
@@ -60,8 +66,16 @@ void PhysicsCamera::Update(float timeDelta)
 		elapsed += timeDelta;
 	}*/
 	string what = "Nothing";
+
+	//SDL_Joystick *joy;
+	//if (SDL_NumJoysticks() > 0) {
+	//	// Open joystick
+	//	joy = SDL_JoystickOpen(0);
+	//	if (joy) 
+	//	{
+
 	// Handle the gravity gun
-	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3))
+	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3) )
 	{
 		float dist = 1000.0f;
 		if (pickedUp == NULL)
@@ -103,23 +117,37 @@ void PhysicsCamera::Update(float timeDelta)
 			pickedUp->rigidBody->setLinearVelocity(GLToBtVector(v));    
 			pickedUp->rigidBody->activate();		
 			what = pickedUp->tag;
-			if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
-	{
-		//force of H
-		float force = 1000.0f;
-		pickedUp->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
-		hasFired = true;
-		elapsed = 0.0f;
+
+			//int ab = SDL_JoystickGetButton(joy, 10);
+
+			if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass)) //|| (ab) && elapsed > timeToPass)
+			{
+				//force of H
+				float force = 1000.0f;
+				pickedUp->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
+				hasFired = true;
+				elapsed = 0.0f;
 		
-	}
-	else
-	{
+			}
+			else
+			{
 		
-		elapsed += timeDelta;
-	}
+				elapsed += timeDelta;
+			}
 			
 		}
+
+		//} else {
+		//		//Game::Instance()->PrintText("Could not get controller!!");
+		//	}
+
+		//	// Close if opened
+		//	if (SDL_JoystickGetAttached(joy)) {
+		//		SDL_JoystickClose(joy);
+		//	}
+		//}
 	}
+
 	else
 	{ 
 		hasFired = false;
