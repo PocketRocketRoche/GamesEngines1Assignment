@@ -67,15 +67,16 @@ void PhysicsCamera::Update(float timeDelta)
 	}*/
 	string what = "Nothing";
 
-	//SDL_Joystick *joy;
-	//if (SDL_NumJoysticks() > 0) {
-	//	// Open joystick
-	//	joy = SDL_JoystickOpen(0);
-	//	if (joy) 
-	//	{
+	SDL_Joystick *joy;
+	if (SDL_NumJoysticks() > 0) {
+		// Open joystick
+		joy = SDL_JoystickOpen(0);
+		if (joy) 
+		{
+			int ab = SDL_JoystickGetButton(joy, 10);
 
 	// Handle the gravity gun
-	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3) )
+	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3) || (ab))
 	{
 		float dist = 1000.0f;
 		if (pickedUp == NULL)
@@ -118,9 +119,7 @@ void PhysicsCamera::Update(float timeDelta)
 			pickedUp->rigidBody->activate();		
 			what = pickedUp->tag;
 
-			//int ab = SDL_JoystickGetButton(joy, 10);
-
-			if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass)) //|| (ab) && elapsed > timeToPass)
+			if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
 			{
 				//force of H
 				float force = 1000.0f;
@@ -137,15 +136,15 @@ void PhysicsCamera::Update(float timeDelta)
 			
 		}
 
-		//} else {
-		//		//Game::Instance()->PrintText("Could not get controller!!");
-		//	}
+		} else {
+				//Game::Instance()->PrintText("Could not get controller!!");
+			}
 
-		//	// Close if opened
-		//	if (SDL_JoystickGetAttached(joy)) {
-		//		SDL_JoystickClose(joy);
-		//	}
-		//}
+			// Close if opened
+			if (SDL_JoystickGetAttached(joy)) {
+				SDL_JoystickClose(joy);
+			}
+		}
 	}
 
 	else
