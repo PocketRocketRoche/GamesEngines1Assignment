@@ -50,22 +50,8 @@ void PhysicsCamera::Update(float timeDelta)
 	float moveSpeed = speed;
 	float timeToPass = 1.0f / fireRate;
 
-	/*if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
-	{
-		glm::vec3 pos = parent->position + (parent->look * 5.0f);
-		glm::quat q(RandomFloat(), RandomFloat(), RandomFloat(), RandomFloat());
-		glm::normalize(q);
-		shared_ptr<PhysicsController> physicsComponent = physicsFactory->CreateBox(1,1,1, pos, q);
-		
-		float force = 5000.0f;
-		physicsComponent->rigidBody->applyCentralForce(GLToBtVector(parent->look) * force);
-		elapsed = 0.0f;
-	}
-	else
-	{
-		elapsed += timeDelta;
-	}*/
 	string what = "Nothing";
+
 
 	SDL_Joystick *joy;
 	if (SDL_NumJoysticks() > 0) {
@@ -74,9 +60,11 @@ void PhysicsCamera::Update(float timeDelta)
 		if (joy) 
 		{
 			int ab = SDL_JoystickGetButton(joy, 10);
+			int rbb = SDL_JoystickGetButton(joy, 9);
 
 	// Handle the gravity gun
-	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3) || (ab))
+	//if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(3) || (ab))
+	if(rbb)
 	{
 		float dist = 1000.0f;
 		if (pickedUp == NULL)
@@ -119,7 +107,10 @@ void PhysicsCamera::Update(float timeDelta)
 			pickedUp->rigidBody->activate();		
 			what = pickedUp->tag;
 
-			if ((keyState[SDL_SCANCODE_SPACE]) && (elapsed > timeToPass))
+			// Check the A button pressed
+			
+
+			if (ab && (elapsed > timeToPass))
 			{
 				//force of H
 				float force = 1000.0f;
@@ -131,13 +122,18 @@ void PhysicsCamera::Update(float timeDelta)
 			else
 			{
 		
+				
 				elapsed += timeDelta;
 			}
 			
 		}
 
-		} else {
+		}
+	else {
 				//Game::Instance()->PrintText("Could not get controller!!");
+			//SDL_JoystickClose(joy);
+		hasFired = false;
+			pickedUp = NULL;
 			}
 
 			// Close if opened
@@ -145,13 +141,17 @@ void PhysicsCamera::Update(float timeDelta)
 				SDL_JoystickClose(joy);
 			}
 		}
+		
 	}
 
 	else
 	{ 
+		SDL_JoystickClose(joy);
 		hasFired = false;
 		pickedUp = NULL;
+		
 	}
+	//SDL_JoystickClose(joy);
 	stringstream ss;
 	ss << "Picked up: " << what;
 	game->PrintText(ss.str());

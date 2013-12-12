@@ -123,11 +123,22 @@ bool PortalGame::Initialise()
 	colBall_03->tag="colObject2";
 
 
+	//fountain particle effects
+	fountain1 = make_shared<FountainEffect>(50);
+	fountain1->position = glm::vec3(5,0,0);
+	fountain1->alive = true;
 
-	centFountain = make_shared<FountainEffect>(50);
-	centFountain->position.x = centFountain->position.y =  centFountain->position.z = 0;
-	centFountain->diffuse = glm::vec3(1,1,0);
-	Attach(centFountain);
+	fountain2 = make_shared<FountainEffect>(50);
+	fountain2-> position = glm::vec3(12,5,0);
+	fountain2->alive = true;
+
+	fountain3 = make_shared<FountainEffect>(50);
+	fountain3->position = glm::vec3(18,3,0);
+	fountain3->alive = true;
+
+	Attach(fountain1);
+	Attach(fountain2);
+	Attach(fountain3);
 	
 	
 
@@ -216,7 +227,10 @@ void BGE::PortalGame::Update(float timeDelta)
 
 		if ((keyState[SDL_SCANCODE_SPACE]))
 		{
-			//Attach Fountain here 
+			fountain1->diffuse = glm::vec3(1,1,1);
+			//Particle p;
+			//centFountain->UpdateParticle(timeDelta,p);
+			fountain1->alive = false;
 		}
 
 		stringstream ss;

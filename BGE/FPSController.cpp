@@ -83,14 +83,14 @@ void FPSController::Update(float timeDelta)
 					Pitch((int) -pitch);
 				}
 
-
-				// Check the A button pressed
-				int ab = SDL_JoystickGetButton(joy, 10);
-				if (ab)
+				// Check the right bumber button presseds
+				int rbb = SDL_JoystickGetButton(joy, 9);
+				if (rbb)
 				{
-					Game::Instance()->PrintText("A pressed !");
+					Game::Instance()->PrintText("Right Bumber pressed !");
 					
 				}
+
 				
 				
 				ss << SDL_JoystickNameForIndex(0) << " detected";

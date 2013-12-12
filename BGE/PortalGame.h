@@ -31,8 +31,9 @@ namespace BGE
 		void Update(float timeDelta);
 		void Cleanup();
 		void CreateWall();
-		shared_ptr<FountainEffect> centFountain;
-
+		shared_ptr<FountainEffect> fountain1;
+		shared_ptr<FountainEffect> fountain2;
+		shared_ptr<FountainEffect> fountain3;
 		//void GravityGun(SDL_Joystick * joy, int axis);
 		int score;
 		bool disablePitch;
