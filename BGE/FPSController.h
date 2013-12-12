@@ -10,5 +10,6 @@ namespace BGE
 		~FPSController(void);
 		void Update(float timeDelta);
 		bool FPSController::Initialise();
+		bool disablePitch;
 	};
 }

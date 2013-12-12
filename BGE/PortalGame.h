@@ -33,7 +33,9 @@ namespace BGE
 		void CreateWall();
 		shared_ptr<FountainEffect> centFountain;
 
+		//void GravityGun(SDL_Joystick * joy, int axis);
 		int score;
+		bool disablePitch;
 		
 		// The world.
 		std::shared_ptr<PhysicsFactory> physicsFactory;

@@ -22,7 +22,7 @@ bool XBoxController::Initialise()
 }
 
 
-void CheckOverflow( int & x )
+void CheckOverflow( int x )
 {
 	if (x == -32768)
 	{
