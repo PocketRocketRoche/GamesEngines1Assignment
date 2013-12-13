@@ -46,13 +46,15 @@ std::shared_ptr<GameComponent> station;
 
 bool PortalGame::Initialise() 
 {
-	// Initialize the joystick subsystem
+	// Initialize the joystick subsystem #
+
+
 	SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 	//return GameComponent::Initialise();
 
 	score = 0;
-	riftEnabled = false;
-	fullscreen = true;
+	riftEnabled = true;
+	//fullscreen = true;
 	// Set up the collision configuration and dispatcher
     collisionConfiguration = new btDefaultCollisionConfiguration();
     dispatcher = new btCollisionDispatcher(collisionConfiguration);

@@ -18,7 +18,7 @@ void RiftController::AccumulateInputs()
 		glm::quat headOrientation = OVRToGLQuat(hmdOrient);
 		// Combine the orientation of the head with the yaw from the XBOX controller...
 		orientation = xboxController->orientation * headOrientation;
-		//position = xboxController->position;
+		position = xboxController->position;
 		// Now update the XBOX Controller Look vectors
 		glm::quat tempQ = xboxController->orientation;
 		xboxController->orientation = orientation;
@@ -60,6 +60,8 @@ void RiftController::Update(float timeDelta)
 {
 	AccumulateInputs();
 	GameComponent::Update(timeDelta);
+
+	Game::Instance()->PrintVector("XBOX Pos", position);
 }
 
 bool RiftController::Initialise()
