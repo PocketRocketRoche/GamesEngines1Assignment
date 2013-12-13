@@ -6,6 +6,9 @@
 #include "FountainEffect.h"
 
 #define FOUNTAIN_HEIGHT 10.0f
+#define NUM_FOUNTAINS 20
+#define FOUNTAIN_RADIUS 50.0f
+
 namespace BGE
 {
 	class PortalGame :
@@ -37,6 +40,8 @@ namespace BGE
 		//void GravityGun(SDL_Joystick * joy, int axis);
 		int score;
 		bool disablePitch;
+		vector<shared_ptr<FountainEffect>> fountains;
+		float fountainTheta;
 		
 		// The world.
 		std::shared_ptr<PhysicsFactory> physicsFactory;

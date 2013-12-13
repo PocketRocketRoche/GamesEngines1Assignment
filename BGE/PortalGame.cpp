@@ -140,6 +140,29 @@ bool PortalGame::Initialise()
 	Attach(fountain2);
 	Attach(fountain3);
 	
+
+
+	fountainTheta = 0.0f; 
+	for (int i = 0 ; i < NUM_FOUNTAINS ; i ++)
+	{
+		fountainTheta = ((glm::pi<float>() * 2.0f) / NUM_FOUNTAINS) * i;
+		shared_ptr<FountainEffect> fountain = make_shared<FountainEffect>(500);
+		if (i % 2 == 0)
+		{
+			fountain->diffuse = glm::vec3(1,0,0);
+		}
+		else
+		{
+			fountain->diffuse = glm::vec3(0,0,1);
+		}
+
+		fountain->position.x = glm::sin(fountainTheta) * FOUNTAIN_RADIUS;
+		fountain->position.z = - glm::cos(fountainTheta) * FOUNTAIN_RADIUS;
+		fountain->position.y = FOUNTAIN_HEIGHT;
+		fountains.push_back(fountain);
+		Attach(fountain);
+	}
+	fountainTheta = 0.0f;
 	
 
 	
@@ -232,6 +255,27 @@ void BGE::PortalGame::Update(float timeDelta)
 			//centFountain->UpdateParticle(timeDelta,p);
 			fountain1->alive = false;
 		}
+
+		for (int i = 0 ; i < fountains.size() ; i ++)
+	{
+		if (i % 2 == 0)
+		{
+			fountains[i]->position.y = FOUNTAIN_HEIGHT + (glm::sin(fountainTheta) * FOUNTAIN_HEIGHT);
+		}
+		else
+		{
+			fountains[i]->position.y = FOUNTAIN_HEIGHT - (glm::sin(fountainTheta) * FOUNTAIN_HEIGHT);
+		}
+	}
+		fountain1->position.y = 5 + (glm::sin(fountainTheta) * 5);
+		fountain2->position.y = 5 - (glm::sin(fountainTheta) * 5);
+		fountain3->position.y = 5 + (glm::sin(fountainTheta) * 5);
+	float scale = 30.0f + (glm::sin(fountainTheta) / 3.0f);
+	fountainTheta += timeDelta;
+	if (fountainTheta >= glm::pi<float>() * 2.0f)
+	{
+		fountainTheta = 0.0f;
+	}
 
 		stringstream ss;
 		ss << "Score: " << score;
