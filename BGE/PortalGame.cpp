@@ -17,6 +17,7 @@
 using namespace BGE;
 
 
+
 PortalGame::PortalGame(void)
 {
 	physicsFactory = NULL;
@@ -26,6 +27,12 @@ PortalGame::PortalGame(void)
 	solver = NULL;
 	fullscreen = false;
 	score = 0;
+	//collsion flags
+	leftSectionClearFlag = false;
+	middleSectionClearFlag = false;
+	rightSectionClearFlag = false;
+	gameWon = false;
+	gameWonCount=0;
 }
 
 
@@ -45,6 +52,7 @@ bool PortalGame::Initialise()
 
 	score = 0;
 	riftEnabled = false;
+	fullscreen = true;
 	// Set up the collision configuration and dispatcher
     collisionConfiguration = new btDefaultCollisionConfiguration();
     dispatcher = new btCollisionDispatcher(collisionConfiguration);
@@ -66,6 +74,7 @@ bool PortalGame::Initialise()
 	physicsFactory->CreateGroundPhysics();
 	physicsFactory->CreateCameraPhysics();
 
+
 	/*std::shared_ptr<GameComponent> box = make_shared<Box>(1, 1, 1);
 	box->position = glm::vec3(0, 5, -20);
 	Attach(box);*/
@@ -75,16 +84,16 @@ bool PortalGame::Initialise()
 	shared_ptr<PhysicsController> colCyl_01 = physicsFactory->CreateCylinder(0.5,5, glm::vec3(5, 0, 0), glm::quat()); 
 	//colCyl_01->tag="colObject_01";
 	shared_ptr<PhysicsController> colBox_01 = physicsFactory->CreateBox(1,1,1, glm::vec3(5, 7, 0), glm::quat()); 
-	colBox_01->tag="colObject1"; 
+	colBox_01->tag="colBox1"; 
 
 	shared_ptr<PhysicsController> colCyl_02 = physicsFactory->CreateCylinder(0.5,10, glm::vec3(12, 0, 0), glm::quat());
 
 	shared_ptr<PhysicsController> colBox_02 = physicsFactory->CreateBox(1,1,1, glm::vec3(12, 10, 0), glm::quat()); 
-	colBox_02->tag="colObject1"; 
+	colBox_02->tag="colBox2"; 
 
 	shared_ptr<PhysicsController> colCyl_03 = physicsFactory->CreateCylinder(0.5,8, glm::vec3(18, 0, 0), glm::quat()); 
 	shared_ptr<PhysicsController> colBox_03 = physicsFactory->CreateBox(1,1,1, glm::vec3(18, 10, 0), glm::quat()); 
-	colBox_03->tag="colObject1"; 
+	colBox_03->tag="colBox3"; 
 
 	//*************Walls****************
 	//left wall 
@@ -113,15 +122,16 @@ bool PortalGame::Initialise()
 
 	//*************Balls****************
 	// Ball to throw at Boxes
-	shared_ptr<PhysicsController> colBall_01 = physicsFactory->CreateSphere(0.5,glm::vec3(5, 0, 10),glm::quat());
-	colBall_01->tag="colObject2";
+	shared_ptr<PhysicsController> colBall_01 = physicsFactory->CreateSphere(0.8,glm::vec3(5, 0, 10),glm::quat());
+	colBall_01->tag="colBall";
 
-	shared_ptr<PhysicsController> colBall_02 = physicsFactory->CreateSphere(0.5,glm::vec3(12, 0, 10),glm::quat());
-	colBall_02->tag="colObject2";
+	shared_ptr<PhysicsController> colBall_02 = physicsFactory->CreateSphere(0.8,glm::vec3(12, 0, 10),glm::quat());
+	colBall_02->tag="colBall";
 
-	shared_ptr<PhysicsController> colBall_03 = physicsFactory->CreateSphere(0.5,glm::vec3(18, 0, 10),glm::quat());
-	colBall_03->tag="colObject2";
+	shared_ptr<PhysicsController> colBall_03 = physicsFactory->CreateSphere(0.8,glm::vec3(18, 0, 10),glm::quat());
+	colBall_03->tag="colBall";
 
+	
 
 	//fountain particle effects
 	fountain1 = make_shared<FountainEffect>(100);
@@ -165,8 +175,17 @@ bool PortalGame::Initialise()
 	}
 	fountainTheta = 0.0f;
 	
+	if(gameWon == true)
+	//spawn monkey
+	shared_ptr<PhysicsController> monkey = physicsFactory->CreateFromModel("monkey", glm::vec3(15,20,0), glm::quat(), glm::vec3(5,5,5));
 
-	
+
+	//if((leftSectionClearFlag==true) && (middleSectionClearFlag==true) && (rightSectionClearFlag==true ))
+	//{
+	//	//spawn monkey
+	//	shared_ptr<PhysicsController> monkey = physicsFactory->CreateFromModel("monkey", glm::vec3(15,20,0), glm::quat(), glm::vec3(5,5,5));
+	//							
+	//}
 
 	//physicsFactory->CreateWall(glm::vec3(-20,0,20), 50, 10);
 
@@ -192,21 +211,30 @@ bool PortalGame::Initialise()
 	return true;
 }
 
-
-//void CheckOverflow( int & x )
-//{
-//	if (x == -32768)
-//	{
-//		x = - x;
-//	}
-//}
-
-
 void BGE::PortalGame::Update(float timeDelta)
 {
 	float timeToPass = 1.0f;
 	dynamicsWorld->stepSimulation(timeDelta,100);
 	//station->Yaw(timeDelta * 20.0f);
+	
+
+	if((leftSectionClearFlag==true) && (middleSectionClearFlag==true) && (rightSectionClearFlag==true ) && gameWonCount<=0)
+	{
+		gameWonCount+=1;
+		PrintText("You WIN!");
+		//spawn monkey
+		shared_ptr<PhysicsController> monkey = physicsFactory->CreateFromModel("monkey", glm::vec3(15,100,0), glm::quat(), glm::vec3(2,2,2));
+		monkey->tag="monkey";
+
+		//spawn ragdoll
+		shared_ptr<PhysicsController> ragDoll =physicsFactory->CreateRagDoll(glm::vec3(2,0,10));
+		ragDoll->tag= "ragDoll";
+		
+		// Create Inca Pyramid
+		//position(), baseWidth, blockHeight, blockWidth, blockDepth
+		physicsFactory->CreateIncaPyramid(glm::vec3(26,0,0), 3, 1.5, 1.5, 1);
+								
+	}
 
 	//collision detection check
 	 int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
@@ -225,37 +253,63 @@ void BGE::PortalGame::Update(float timeDelta)
                         {
 							//PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
 							static bool lastHit = false;
-							if (pcA->tag == "colObject1" && pcB->tag == "colObject2")
+
+							//if first box is hit
+							if (pcA->tag == "colBox1" && pcB->tag == "colBall")
                             {
 								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+								  fountain1->alive = false;
+								  leftSectionClearFlag=true;
 								  if( ! lastHit)
 								  {
 									  score += 10;
 								  }
-								  lastHit = true;
-
-								  
+								  lastHit = true;	  
 							}
 							else
 							{
 								lastHit = false;
 							}
-							/*if (pcB->tag == "colObject1" && pcA->tag == "colObject2")
+
+							//second box hit
+								//if first box is hit
+							if (pcA->tag == "colBox2" && pcB->tag == "colBall")
                             {
 								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
-							}*/
+								  fountain2->alive = false;
+								  middleSectionClearFlag=true;
+								  if( ! lastHit)
+								  {
+									  score += 10;
+								  }
+								  lastHit = true;	  
+							}
+							else
+							{
+								lastHit = false;
+							}
+
+							//third box is hit
+							if (pcA->tag == "colBox3" && pcB->tag == "colBall")
+                            {
+								  PrintText("Collision between " + pcA->tag + " and " + pcB->tag);
+								  fountain3->alive = false;
+								  rightSectionClearFlag=true;
+								  if( ! lastHit)
+								  {
+									  score += 10;
+								  }
+								  lastHit = true;	  
+							}
+							else
+							{
+								lastHit = false;
+							}
+
                         }
                 }
         }
 
-
-		if ((keyState[SDL_SCANCODE_SPACE]))
-		{
-			fountain1->diffuse = glm::vec3(1,1,1);
-			//Particle p;
-			//centFountain->UpdateParticle(timeDelta,p);
-			fountain1->alive = false;
-		}
 
 		for (int i = 0 ; i < fountains.size() ; i ++)
 	{

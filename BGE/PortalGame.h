@@ -42,6 +42,11 @@ namespace BGE
 		bool disablePitch;
 		vector<shared_ptr<FountainEffect>> fountains;
 		float fountainTheta;
+		bool leftSectionClearFlag;
+		bool middleSectionClearFlag;
+		bool rightSectionClearFlag;
+		bool gameWon;
+		int gameWonCount;
 		
 		// The world.
 		std::shared_ptr<PhysicsFactory> physicsFactory;

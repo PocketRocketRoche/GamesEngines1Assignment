@@ -84,7 +84,8 @@ void PhysicsCamera::Update(float timeDelta)
 				}
 			}
 		}
-		if (pickedUp != NULL && hasFired == false && pickedUp->tag == "colObject2" )
+		//only certain items can be picked up
+		if (((pickedUp != NULL) && (hasFired == false)) && ( pickedUp->tag == "colBall" || pickedUp->tag == "monkey" || pickedUp->tag == "ragDoll"))
 		{
 			float powerfactor = 4.0f; // Higher values causes the targets moving faster to the holding point.
             float maxVel = 3.0f;      // Lower values prevent objects flying through walls.
