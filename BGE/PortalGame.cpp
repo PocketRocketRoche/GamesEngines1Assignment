@@ -124,15 +124,16 @@ bool PortalGame::Initialise()
 
 
 	//fountain particle effects
-	fountain1 = make_shared<FountainEffect>(50);
+	fountain1 = make_shared<FountainEffect>(100);
 	fountain1->position = glm::vec3(5,0,0);
 	fountain1->alive = true;
 
-	fountain2 = make_shared<FountainEffect>(50);
+	fountain2 = make_shared<FountainEffect>(100);
 	fountain2-> position = glm::vec3(12,5,0);
+	fountain2->diffuse = glm::vec3(1,0,0);
 	fountain2->alive = true;
 
-	fountain3 = make_shared<FountainEffect>(50);
+	fountain3 = make_shared<FountainEffect>(100);
 	fountain3->position = glm::vec3(18,3,0);
 	fountain3->alive = true;
 
@@ -156,8 +157,8 @@ bool PortalGame::Initialise()
 			fountain->diffuse = glm::vec3(0,0,1);
 		}
 
-		fountain->position.x = glm::sin(fountainTheta) * FOUNTAIN_RADIUS;
-		fountain->position.z = - glm::cos(fountainTheta) * FOUNTAIN_RADIUS;
+		fountain->position.x = - glm::cos(fountainTheta) * FOUNTAIN_RADIUS;
+		fountain->position.z =  glm::sin(fountainTheta) * FOUNTAIN_RADIUS;
 		fountain->position.y = FOUNTAIN_HEIGHT;
 		fountains.push_back(fountain);
 		Attach(fountain);
